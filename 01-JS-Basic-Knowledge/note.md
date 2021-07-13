@@ -1,60 +1,47 @@
 # JavaScript 基础知识
-## 一、数据类型转换
-1. 显式转换
-    - 1.1 Boolean()
-        - 真值
-            - 字符串：非空字符串
-            - 数字：非 0 数值
-            - 布尔值：true
-            - 对象：除 null 外
-        - 假值
-            - 字符串：空字符串
-            - 数字：0 和 NaN
-            - 布尔值：false
-            - 对象：null
-            - undefined
-
-    > 假值不等价于 == false
-
-    - 1.2 Number()
-        - 布尔值：true：1，false：0
-        - 数字：十进制数字
-        - null：0, 但是 null != 0
-        - undefined：NaN
-        - 字符串
-            - 如果只包含有效的数字，转换成对应的数字：保2, 忽8，处16
-            - 如果只包含有效的浮点数，转换成对应的浮点数
-            - 空字符串：0
-            - 其它：NaN
-        - 对象
-            - 按顺序依次调用对象的 toPrimitive()，valueOf() 和 toString() 方法，返回对应方法的返回值
-            - 只有当前一种方法不存在时，才会调用后一种方法【即使前一种方法返回 NaN, 只要它存在，就不会调用下一种方法】
-            - 如果三种方法都不存在，返回 NaN
-    - 1.3 String()
-        - 字符传，数字，布尔值, null, undefined：直接转换成字符串
-            - null 和 undefined 有 String()方法，没有 toString() 方法
-        - 对象
-            - 一般对象
-                - 如果是用 String() 把对象转成字符串：按顺序依次调用对象的 toPrimitive() 和 toString() 【不会调用 valueOf()】，返回对应方法的返回值
-                - 如果是用 toString() 把对象转成字符串，则会优先调用 toString() 
-                - 如果没有 toPrimitive() 和 toString()：则返回 '[object Object]'
-            - 数组
-                - [1,2]：'1,2'
-                - []：''
-            - 函数，日期，正则：直接转换成字符串
-
+## 一、JavaScript 数据类型转换
+1. 显示转换
+    - String()
+        - 基本数据类型: string, number, boolean, null, undefined => 直接加 '' 转成字符串 
+        - 引用数据类型
+            - Object
+                - String(Object): 按顺序依次调用 toPrimitive(), toString()[不会调用 valueOf()]，返回对应方法的返回值
+                - Object.toString(): 优先调用 toString()
+                - 不存在 toPrimitive() 和 toString()， 返回`'[object Object]'`
+            - Array
+                - [1, 2]: '1, 2'
+                - []: ''
+            - Function, Date, RegExp: 直接加 '' 转成字符串
+    - Number()
+        - 基本数据类型
+            - string
+                - 如果只包含有效数字[整数和浮点数]，则转换成相应的数字：处2[能处理2进制], 忽8[忽略前导0], 转16[把16进制转成10进制]
+                - 空字符串：0
+                - 以上都不满足：NaN
+            - boolean
+                - true: 1
+                - false: 0 => 但是 false != 0
+            - null: 0 => 但是 null != 0
+            - undefined: NaN
+        - 引用数据类型
+            - Object
+                - 按顺序依次调用 toPrimitive(), valueOf() 和 toString(), 返回对应方法的返回值
+                - 只有当前一种方法不存在时，才会调用下一种方法，即使前一种方法返回 NaN[跟书本讲的不一样]
+                - 以上三种方法都不存在，返回 NaN
+    - Boolean()
+        - 假值：空字符串, 0 和 NaN, false, null, undefined
+        - 真值: 非空字符串, 非 0 有效数字, true, 一切对象
 2. 隐式转换
-    - 2.1 转 Number
+    - 转 string
+        - 加号 + 操作符，且其中一个数是字符串
+    - 转 number
         - 一元 + 操作符
         - 减号 - 操作符
-        - 想等操作符: == 
-        - 比较操作符: >, <, >=, <=
-    - 2.2 转 String
-        - 加法 + 操作，且另一个数是字符串
-    - 2.3 转 Boolean
+        - 相等操作符: ==
+        - 比较操作符: >, >=, <, <=
+    - 转 boolean
         - ! 和 !!
-        - if () 语句括号里的表达式
-
+        - if () 语法括号里的表达式
 ## 二、在 Node 中运行 ESModule
 1. 把文件后缀改为 .mjs
 2. 在执行命令 node 后面加 `--experimental-module` 参数，比如：`node --experimental-module index.mjs`  
