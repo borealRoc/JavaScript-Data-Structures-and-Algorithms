@@ -1,112 +1,118 @@
-// 模拟 push 方法
-Array.prototype.imitatePush = function (...endAdds) {
-    const len = this.length
+Array.prototype._myPush = function (...endAdds) {
+    // 1. 把 endAdds 逐一添加到原数组后面
+    const startLen = this.length
     for (let i = 0; i < endAdds.length; i++) {
-        this[len + i] = endAdds[i]
+        this[startLen + i] = endAdds[i]
     }
+    // 2. 返回添加后的数组长度
     return this.length
 }
 
-// 模拟 unshift 方法
-Array.prototype.imitateUnshift = function (...startAdds) {
-    const initialLen = this.length
+Array.prototype._myUnshift = function (...startAdds) {
+    // 1. 把原数组的元素逐一后移 startAdds.length 个位置
     const startAddsLen = startAdds.length
-    for (let i = initialLen + startAddsLen - 1; i >= startAddsLen; i--) {
+    this.length = this.length + startAddsLen
+    for (let i = this.length - 1; i >= startAddsLen; i--) {
         this[i] = this[i - startAddsLen]
     }
+    // 2. 把 startAdds 逐一添加到原数组前面
     for (let i = 0; i < startAddsLen; i++) {
         this[i] = startAdds[i]
     }
+    // 3. 返回添加后的数组长度
     return this.length
 }
 
-// 模拟 pop 方法
-Array.prototype.imitatePop = function () {
-    if (!this.length) return undefined
+Array.prototype._myPop = function () {
+    // 1. 暂存原数组最后一项
     const end = this[this.length - 1]
+    // 2. 删除最后一项
     this[this.length - 1] = null
     this.length = this.length - 1
+    // 3. 返回一开始暂存的最后一项
     return end
 }
 
-// 模拟 shift 方法
-Array.prototype.imitateShift = function () {
-    if (!this.length) return undefined
+Array.prototype._myShift = function () {
+    // 1. 暂存原数组第一项
     const start = this[0]
-    this[0] = null
+    // 2. 从第二项开始，把原数组每一项往前移动一个单位
     for (let i = 0; i < this.length; i++) {
         this[i] = this[i + 1]
     }
     this.length = this.length - 1
+    // 3. 返回一开始暂存的第一项
     return start
-
 }
 
-// 模拟 splice 方法
-Array.prototype.imitateSplice = function (startIndex, delCount, ...adds) {
-
-    const initialLen = this.length
-    const addsLen = adds.length
-
-    // 缓存被删除元素组成的数组
+Array.prototype._mySplice = function (startIndex, delCount, ...adds) {
+    // 1. 缓存被删元素
     const delArr = []
     for (let i = 0; i < delCount; i++) {
-        // 当被删除元素超出原数组范围是，要剔除 超出部分的 undefined 元素
+        // 1.1 当删除的元素超过原数组的范围，剔除超出部分的 undefined 元素
         if (this[startIndex + i] !== undefined) {
             delArr[i] = this[startIndex + i]
         }
     }
-
-    // 从原数组剔除被删除元素
+    // 2. 清除原数组被删除的元素
+    const initialLen = this.length
     for (let i = 0; i < delCount; i++) {
-        this[startIndex + i] = 'EDLETE_ITEM_XXX'
+        this[startIndex + i] = 'DELETE_ITEM'
     }
+    this.length = initialLen
 
-    // 移动删除元素后面的原数组的元素，并添加新增元素
-    // 1. 如果删除元素后面的原数组的元素全部删除, 则只需把 adds 从 startIndex 开始，逐一添加到原数组
-    if (startIndex + delCount >= initialLen) {
-        this.length = startIndex + addsLen
-        for(let i = 0; i < addsLen; i++) {
-            this[startIndex +i] = adds[i]
-        }
-    } else {
-        // 2. 如果删除元素后面的原数组的元素有剩余，则要移动剩余元素，以及添加新增元素
-        // 2.1 保存剩余元素
-        const temp = []
-        for (let i = 0; i < this.length - startIndex - delCount; i++) {
-            temp[i] = this[startIndex + delCount + i]
-        }
-        // 2.2 添加新增元素 
+    // 3. 把 adds 从 startIndex 开始，添加到原数组
+    const leftLen = initialLen - startIndex - delCount
+    const addsLen = adds.length
+    // 3.1 如果原数组没有剩余元素，只需把 adds 从 startIndex 开始逐一添加到原数组
+    // 而且，数组的长度变成 startIndex + addsLen
+    if (leftLen <= 0) {
         for (let i = 0; i < addsLen; i++) {
             this[startIndex + i] = adds[i]
         }
-        // 2.3 移动剩余元素
-        for (let i = 0; i < temp.length; i++) {
-            this[startIndex + addsLen + i] = temp[i]
+        this.length = startIndex + addsLen
+    } else {
+        // 3.2 如果原数组有剩余元素, 把 adds 从 startIndex 开始逐一添加到原数组后，再把剩余元素依次向后移动 addsLen - delCount 个位置
+        // 而且，数组的长度变成 initialLen - delCount + addsLen
+        // 3.2.1 缓存剩余元素
+        const leftArr = []
+        for (let i = startIndex + delCount; i < initialLen; i++) {
+            leftArr[i - startIndex - delCount] = this[i]
         }
+        // 3.2.2 增添增加元素
+        for (let i = 0; i < addsLen; i++) {
+            this[startIndex + i] = adds[i]
+        }
+        // 3.2.3 补上剩余元素
+        for (let i = 0; i < leftArr.length; i++) {
+            this[startIndex + addsLen + i] = leftArr[i]
+        }
+        // 3.2.4 释放 leftArr
+        leftArr.length = 0
     }
 
-    // 返回被删除元素组成的数组
+    // 4. 返回被删元素组成的数组
     return delArr
 }
 
 
-const arr = [1, 2, 3]
+const arr = [3, 4]
+console.log('arr', arr)
 
-const res1 = arr.imitatePush(4, 5)
-console.log(res1, arr) // 5 [ 1, 2, 3, 4, 5 ]
+const _myPushRes = arr._myPush(5, 6)
+console.log('_myPush', _myPushRes, arr) // _myPush 4 [ 3, 4, 5, 6 ]
 
-const res2 = arr.imitateUnshift(-1, -2)
-console.log(res2, arr) // 7 [-1, -2, 1, 2, 3, 4, 5]
+const _myUnshiftRes = arr._myUnshift(1, 2)
+console.log('_myUnshiftRes', _myUnshiftRes, arr) // _myUnshiftRes 6 [ 1, 2, 3, 4, 5, 6 ]
 
-const res3 = arr.imitatePop()
-console.log(res3, arr) // 5 [ -1, -2, 1, 2, 3, 4 ]
+const _myPopRes = arr._myPop()
+console.log('_myPopRes', _myPopRes, arr) // _myPopRes 6 [ 1, 2, 3, 4, 5 ]
 
-const res4 = arr.imitateShift()
-console.log(res4, arr) // -1 [ -2, 1, 2, 3, 4 ]
+const _myShiftRes = arr._myShift()
+console.log('_myShiftRes', _myShiftRes, arr) // _myShiftRes 1 [ 2, 3, 4, 5 ]
 
-const res5 = arr.imitateSplice(1, 2, ...[10, 20, 30])
-console.log(res5, arr)
-
-
+const _mySpliceRes1 = arr._mySplice(0, 1, 1, 2)
+console.log('_mySpliceRes1', _mySpliceRes1, arr) // _mySpliceRes1 [ 2 ] [ 1, 2, 3, 4, 5 ]
+const _mySpliceRes2 = arr._mySplice(1, 5, 2, 3)
+console.log('_mySpliceRes2', _mySpliceRes2, arr) // _mySpliceRes2 [ 2, 3, 4, 5 ] [ 1, 2, 3 ]
 
