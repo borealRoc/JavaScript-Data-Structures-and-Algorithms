@@ -46,25 +46,21 @@ Array.prototype._myShift = function () {
 }
 
 Array.prototype._mySplice = function (startIndex, delCount, ...adds) {
-    // 1. 缓存被删元素
+    // 1. 缓存被删元素, 并给它们打上标记 
     const delArr = []
     for (let i = 0; i < delCount; i++) {
         // 1.1 当删除的元素超过原数组的范围，剔除超出部分的 undefined 元素
         if (this[startIndex + i] !== undefined) {
             delArr[i] = this[startIndex + i]
+            this[startIndex + i] = 'DELETE_ITEM'
         }
     }
-    // 2. 清除原数组被删除的元素
-    const initialLen = this.length
-    for (let i = 0; i < delCount; i++) {
-        this[startIndex + i] = 'DELETE_ITEM'
-    }
-    this.length = initialLen
 
-    // 3. 把 adds 从 startIndex 开始，添加到原数组
-    const leftLen = initialLen - startIndex - delCount
+    // 2. 把 adds 从 startIndex 开始，添加到原数组, 在把原数组剩余元素向后移动
+    const initialLen = this.length
     const addsLen = adds.length
-    // 3.1 如果原数组没有剩余元素，只需把 adds 从 startIndex 开始逐一添加到原数组
+    const leftLen = initialLen - startIndex - delCount
+    // 2.1 如果原数组没有剩余元素，只需把 adds 从 startIndex 开始逐一添加到原数组
     // 而且，数组的长度变成 startIndex + addsLen
     if (leftLen <= 0) {
         for (let i = 0; i < addsLen; i++) {
@@ -72,26 +68,27 @@ Array.prototype._mySplice = function (startIndex, delCount, ...adds) {
         }
         this.length = startIndex + addsLen
     } else {
-        // 3.2 如果原数组有剩余元素, 把 adds 从 startIndex 开始逐一添加到原数组后，再把剩余元素依次向后移动 addsLen - delCount 个位置
+        // 2.2 如果原数组有剩余元素, 把 adds 从 startIndex 开始逐一添加到原数组后，再把剩余元素依次向后移动 addsLen - delCount 个位置
         // 而且，数组的长度变成 initialLen - delCount + addsLen
-        // 3.2.1 缓存剩余元素
+
+        // 2.2.1 缓存剩余元素
         const leftArr = []
-        for (let i = startIndex + delCount; i < initialLen; i++) {
-            leftArr[i - startIndex - delCount] = this[i]
+        for (let i = 0; i < leftLen; i++) {
+            leftArr[i] = this[startIndex + delCount + i]
         }
-        // 3.2.2 增添增加元素
+        // 2.2.2 增添增加元素
         for (let i = 0; i < addsLen; i++) {
             this[startIndex + i] = adds[i]
         }
-        // 3.2.3 补上剩余元素
+        // 2.2.3 补上剩余元素
         for (let i = 0; i < leftArr.length; i++) {
             this[startIndex + addsLen + i] = leftArr[i]
         }
-        // 3.2.4 释放 leftArr
+        // 2.2.4 释放 leftArr
         leftArr.length = 0
     }
 
-    // 4. 返回被删元素组成的数组
+    // 3. 返回被删元素组成的数组
     return delArr
 }
 
