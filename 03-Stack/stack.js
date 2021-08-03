@@ -1,26 +1,41 @@
 class Stack {
     constructor() {
-        this.items = []
+        this.items = {}
+        this.count = 0
     }
-    push(...ele) {
-        this.items.push(...ele)
-        return this.items.length
+    push(ele) {
+        this.items[this.count] = ele
+        this.count++
+        return this.count
     }
     pop() {
-        const top = this.items.pop()
+        if (this.isEmpty()) return undefined
+        this.count--
+        const top = this.items[this.count]
+        delete this.items[this.count]
         return top
     }
     top() {
-        return this.items[this.items.length - 1]
+        if (this.isEmpty()) return undefined
+        return this.items[this.count - 1]
     }
     size() {
-        return this.items.length
+        return this.count
     }
     isEmpty() {
-        return this.items.length === 0
+        return this.count === 0
     }
     clear() {
-        this.items = []
+        this.items = {}
+        this.count = 0
+    }
+    toString() {
+        if (this.isEmpty()) return ''
+        let str = ''
+        for (let i in this.items) {
+            str += `${this.items[i]},`
+        }
+        return str.slice(0, -1)
     }
 }
 

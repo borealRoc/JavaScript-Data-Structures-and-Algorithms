@@ -19,7 +19,7 @@ function decimalToBinary(num) {
 
     // 5. 将栈里的余数逐一弹出，组成二进制值
     if (binaryStack.isEmpty()) {
-        return ''
+        return undefined
     }
     while (!binaryStack.isEmpty()) {
         binaryStr += String(binaryStack.pop())
@@ -28,7 +28,7 @@ function decimalToBinary(num) {
 }
 
 console.log('decimalToBinary 10', decimalToBinary(10)) // decimalToBinary 10 1010
-console.log('decimalToBinary 0', decimalToBinary(0)) // decimalToBinary 10 ''
+console.log('decimalToBinary 0', decimalToBinary(0)) // decimalToBinary 0 undefined
 
 // 十进制转任意进制（2~36）
 function decimalToAny(num, base) {
