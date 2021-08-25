@@ -114,6 +114,3 @@ Array.prototype._splice = function (startIndex, delCount, ...adds) {
     // 3. 返回被删元素组成的数组
     return delArr
 }
-const arr = [1,2,3,4,5,6]
-const res = arr._splice(2, 3)
-console.log('res', res, arr)
