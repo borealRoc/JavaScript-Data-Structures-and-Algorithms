@@ -2,20 +2,22 @@ const { Stack } = require('./02-object-stack')
 
 // 十进制转二进制
 function decimalToBinary(number) {
+    // 1. 把商初始化为传进来的十进制数字
     let quo = number
     let binaryStr = ``
     const binaryStack = new Stack()
 
-    // 1. 当商大于0时，不断除以2，并把余数加入栈中
+    // 2. 当商大于0时，不断除以2，并把余数加入栈中
     while (quo > 0) {
         const rem = Math.floor(quo % 2)
         binaryStack.push(rem)
+        // 3. 重置商的值
         quo = Math.floor(quo / 2)
     }
 
     if (binaryStack.isEmpty()) return undefined
 
-    // 2. 把栈中的元素一一弹出，倒序组成的字符串就是转换后的二进制数字
+    // 4. 把余数栈中的元素一一弹出，倒序组成的字符串就是转换后的二进制数字
     while (!binaryStack.isEmpty()) {
         binaryStr += binaryStack.pop().toString()
     }

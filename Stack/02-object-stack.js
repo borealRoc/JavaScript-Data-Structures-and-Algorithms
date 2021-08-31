@@ -9,12 +9,14 @@ class Stack {
         return this.size()
     }
     pop() {
+        if (this.isEmpty()) return undefined
         this.count--
         const top = this.items[this.count]
         delete this.items[this.count]
         return top
     }
     top() {
+        if (this.isEmpty()) return undefined
         return this.items[this.count - 1]
     }
     size() {
