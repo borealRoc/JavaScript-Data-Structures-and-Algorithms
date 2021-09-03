@@ -18,7 +18,7 @@
  * reduceRight(callback(accumulator, currentValue[, index[, array]])[, initialValue])：对数组中的每个元素（从右往左）执行 callback 函数，将其结果汇总为单个返回
  */
 
-const { valid_array, valid_function, to_object, get_length } = require('../../utils/index')
+const { valid_array, valid_function, to_object, get_length } = require('../../utils/methods')
 
 
 // 手动实现 sort
