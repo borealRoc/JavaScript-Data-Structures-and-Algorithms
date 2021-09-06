@@ -23,5 +23,10 @@ module.exports = {
     // 全等比较
     defaultEqual(a, b) {
         return a === b
+    },
+    // 大小比较
+    defaultCompare(a, b) {
+        if (a === b) return 0
+        return a < b ? -1 : 1
     }
 }

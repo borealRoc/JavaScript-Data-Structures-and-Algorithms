@@ -15,6 +15,7 @@ class LinkedList {
     getElementAt(position) {
         if (position >= 0 && position < this.count) {
             let current = this.head
+            // 从表头开始迭代，直到找到所需元素
             for (let i = 0; i < position; i++) {
                 current = current.next
             }
@@ -26,6 +27,7 @@ class LinkedList {
     indexOf(element) {
         if (element == undefined) return false
         let current = this.head
+        // 从表头开始迭代，直到找到元素所在位置
         for (let i = 0; i < this.count; i++) {
             if (this.equalHandler(current.element, element)) {
                 return i
@@ -117,7 +119,7 @@ class LinkedList {
     // 3.1 移除链表尾部元素
     pop() {
         const size = this.getSize()
-        let tail = undefined
+        let tail
         if (size > 1) {
             // 倒数第一个元素
             const current = this.getElementAt(size - 2)
