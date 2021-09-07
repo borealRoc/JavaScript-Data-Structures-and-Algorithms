@@ -11,13 +11,11 @@
     - Symbol：唯一标识
     - bigint：大整数
     - Object: 普通对象，数组，函数，Date，正则, Window, Math……
-***
 2. 数据类型检测
     - typeof: 'string', 'number', 'boolean', 'symbol','bigint','function', 'object'[ 无法区分对象，数组和 null，因为它们的 typeof 都是返回 'object']
     - instanceof：和 typeof 一起利用可以区分对象，数组和 null
     - Object.prototype.toString.call(x).slice(8, -1)：完美，能检测任何类型
     - 其它：isNaN, Array.isArray()
-***
 3. 类型转换
     - 3.1 转换类型
         - 显式转换
@@ -63,15 +61,12 @@
         - 转 Boolean
             - 转 false：空字符串，0 和 NaN, false, undefined, null
             - 转 true：非空字符串，有效数值，true，一切非 null 对象
-***
-***
 ### 二、引用数据类型
 1. 基本引用类型
     - Date 
     - RegExp
     - 原始类型的包装对象：new String()/Boolean()/Number
     - 单体内置对象：全局对象 Global(Window)， Math
-***
 2. 集合引用类型
     - Object：一组属性的无序集合
     - Function：函数是对象，函数名是指向函数对象的指针
@@ -90,8 +85,6 @@
         - WeakSet 的成员只能是 Object 类型
         - WeakSet 中的对象都是弱引用，即垃圾回收机制不考虑 WeakSet 对该对象的引用
         - 没有遍历操作
-***
-***
 
 ## 第二章 基于 JavaScript 数据类型拓展数据结构
 ### 一、栈
@@ -115,7 +108,9 @@
         - 若想访问双向链表中的一个元素，如果 position > length/2，从尾部迭代可以加快查找速度；
 3. 循环链表：（可单向，可双向）最后一个元素指向第一个元素，而不是 undefined
 4. 有序链表：保持元素有序的链表结构
+> 数组，栈，队列和链表都是顺序结构
 ### 四、集合
+1. 定义：值不重复的，无序的数据结构
 ### 五、字典
 ### 六、散列表
 ### 七、树
