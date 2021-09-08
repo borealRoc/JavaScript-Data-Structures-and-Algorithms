@@ -3,6 +3,7 @@ class MySet {
         this.items = {}
         this.count = 0
     }
+    // 向集合添加一个新元素
     add(element) {
         if (!this.has(element)) {
             this.items[element] = element
@@ -11,6 +12,7 @@ class MySet {
         }
         return false
     }
+    // 从集合移除一个元素
     delete(element) {
         if (this.has(element)) {
             delete this.items[element]
@@ -19,9 +21,11 @@ class MySet {
         }
         return false
     }
+    // 如果元素在集合中，返回true，否则返回false
     has(element) {
         return Object.prototype.hasOwnProperty.call(this.items, element)
     }
+    // 返回一个包含集合中所有值（元素）的数组
     values() {
         const values = []
         for (let val in this.items) {
@@ -40,6 +44,16 @@ class MySet {
     clear() {
         this.items = {}
         this.count = 0
+    }
+    toString() {
+        if (this.isEmpty()) return ``
+
+        const values = this.values()
+        let str = `${values[0]}`
+        for (let i = 0; i < values.length; i++) {
+            str = `${str}, ${values[i].toString()}`
+        }
+        return str
     }
 
     // 比较两个集合的大小
