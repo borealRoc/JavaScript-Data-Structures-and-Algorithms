@@ -62,11 +62,11 @@ class MySet {
         const sizeA = setA.size()
         const sizeB = setB.size()
         if (sizeA > sizeB) {
-            smallerSet = setB
             biggerSet = setA
+            smallerSet = setB
         } else {
-            smallerSet = setA
             biggerSet = setB
+            smallerSet = setA
         }
         return {
             smallerSet, biggerSet

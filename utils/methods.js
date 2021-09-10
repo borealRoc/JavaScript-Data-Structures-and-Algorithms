@@ -28,5 +28,28 @@ module.exports = {
     defaultCompare(a, b) {
         if (a === b) return 0
         return a < b ? -1 : 1
+    },
+    // 转字符串
+    defaultString(val) {
+        return String(val)
+    },
+    // 散列函数
+    defaultHashCode(key) {
+        if (typeof key === 'number') return key
+        const strKey = String(key)
+        let hash = 0
+        for (let i = 0; i < strKey.length; i++) {
+            hash += strKey.charCodeAt(i)
+        }
+        return hash % 37
+    },
+    // djb2散列函数
+    djb2HashCode(key) {
+        const strKey = String(key)
+        let hash = 5381
+        for (let i = 0; i < strKey.length; i++) {
+            hash = hash * 33 + strKey.charCodeAt(i)
+        }
+        return hash % 1013
     }
 }
