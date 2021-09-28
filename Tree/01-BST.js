@@ -37,6 +37,9 @@ class BST {
         }
         return current
     }
+    minValue() {
+        return this.min().key
+    }
     // 1.3 树最大值
     max() {
         return this.maxNode(this.root)
@@ -47,6 +50,9 @@ class BST {
             current = current.right
         }
         return current
+    }
+    maxValue() {
+        return this.max().key
     }
 
     // 2. 遍历树：不会更改树结构
@@ -107,7 +113,7 @@ class BST {
                 this.insertNode(node.right, key)
             }
         } else {
-            throw new Error(`${key} cannot be inserted`)
+            throw new Error(`${key} existed, cannot be inserted`)
         }
     }
     // 3.2 移除值
@@ -134,22 +140,23 @@ class BST {
                 // 1. 如果删除的是一个叶子节点，直接将该叶子节点赋值为 null，并返回
                 node = null
                 return node
+                // 父被删：儿子顶上
             } else if (node.left == null) {
-                // 2. 如果删除的是一个没有左子节点的节点， 把右子节点赋值给它，并返回
+                // 2. 如果删除的是一个只有右子节点的节点， 把右子节点赋值给它，并返回
                 node = node.right
                 return node
             } else if (node.right == null) {
-                // 3. 如果删除的是一个没有右子节点的节点， 把左子节点赋值给它，并返回
+                // 3. 如果删除的是一个只有左子节点的节点， 把左子节点赋值给它，并返回
                 node = node.left
                 return node
             } else {
                 // 4. 如果删除的是一个同时有左右子节点的节点，有两种方法
-                // 4.1 方法一：找到左子树的最大节点，赋值给它；把“左子树的最大节点”原先所在的节点删除；更新去除“左子树的最大节点”后的左子树；返回节点
+                // 4.1 方法一：找到左子树的最大节点，赋值给它；把“左子树的最大节点”原先所在的节点删除，更新去除“左子树的最大节点”后的左子树；返回节点
                 // const aux = this.maxNode(node.left)
                 // node.key = aux.key
                 // node.left = this.removeNode(node.left, aux.key)
                 // return node
-                // 4.2 方法二：找到右子树的最小节点，赋值给它；把“右子树的最小节点”原先所在的节点删除；更新去除“右子树的最小节点”后的右子树；返回节点
+                // 4.2 方法二：找到右子树的最小节点，赋值给它；把“右子树的最小节点”原先所在的节点删除，更新去除“右子树的最小节点”后的右子树；返回节点
                 const aux = this.minNode(node.right)
                 node.key = aux.key
                 node.right = this.removeNode(node.right, aux.key)
@@ -158,4 +165,8 @@ class BST {
         }
 
     }
+}
+
+module.exports = {
+    BST
 }
