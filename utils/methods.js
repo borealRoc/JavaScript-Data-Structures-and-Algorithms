@@ -51,5 +51,11 @@ module.exports = {
             hash = hash * 33 + strKey.charCodeAt(i)
         }
         return hash % 1013
+    },
+    // 交换数组中两个项的值
+    swap(arr, index1, index2) {
+        const temp = arr[index1]
+        arr[index1] = arr[index2]
+        arr[index2] = temp
     }
 }
