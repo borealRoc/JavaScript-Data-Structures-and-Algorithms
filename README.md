@@ -6,7 +6,7 @@
     - Undefined：声明未赋值
     - Null：空对象指针
     - Boolean：true, false
-    - Number：有效数值, Infinity, -Infinity, NaN
+    - Number：有效数值（正数，负数，0）, Infinity, -Infinity, NaN
     - String
     - Symbol：唯一标识
     - bigint：大整数
@@ -20,7 +20,7 @@
     - 3.1 转换类型
         - 显式转换
             - 转 String：String(), toString()
-            - 转 Number：Number(), parseInt(), parseFloat()
+            - 转 Number：Number(), parseInt(), parseFloat(), ~~ (相当于Math.floor(),且效率更高)
             - 转 Boolean：Boolean()
         - 隐式转换
             - 转 String：x + ''
