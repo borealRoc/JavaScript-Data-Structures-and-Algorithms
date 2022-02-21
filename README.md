@@ -23,7 +23,9 @@
             - 转 Number：Number(), parseInt(), parseFloat(), ~~ (相当于Math.floor(),且效率更高)
             - 转 Boolean：Boolean()
         - 隐式转换
-            - 转 String：x + ''
+            - 转 String
+                - x + 字符串
+                - 对象 + x：除了new Number()
             - 转 Number
                 - 一元 + 和 - [变相反数] 
                 - 减号 - 操作符
