@@ -10,7 +10,7 @@
     - String
     - Symbol：唯一标识
     - bigint：大整数
-    - Object: 普通对象，数组，函数，Date，正则, Window, Math……
+    - Object: 普通对象，数组，函数，Date，正则, JSON, Window, Math, Set, Map ……
 2. 数据类型检测
     - typeof: 'string', 'number', 'boolean', 'symbol','bigint','function', 'object'[ 无法区分对象，数组和 null，因为它们的 typeof 都是返回 'object']
     - instanceof：和 typeof 一起利用可以区分对象，数组和 null
