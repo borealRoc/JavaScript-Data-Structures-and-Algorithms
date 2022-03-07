@@ -30,6 +30,8 @@
 // （3）读取单个属性的特性：Object.getOwnProperty(obj, key)
 // （4）读取多个属性的特性：Object.getOwnProperties(obj)
 // （5）判断对象自身是否具有某属性：Object.hasOwnProperty(key)
+// （6）获取一个对象的非 Symbol 私有属性, 返回一个数组：Object.keys(obj)，和 Object.getOwnProptertyName(obj) 一样
+// （7）获取一个对象的 Symbol 私有属性, 返回一个数组 Object.getOwnPropertySymbols(obj)
 // 2. 对象方法
 // （1）Object.getPrototypeOf(obj)：返回obj的原型（内部[[Prototype]]属性的值）
 // （2）Object.create(protoObj)：以 protoObj 为原型创建一个对象
