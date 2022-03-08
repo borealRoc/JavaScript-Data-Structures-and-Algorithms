@@ -35,7 +35,7 @@
 // 2. 对象方法
 // （1）Object.getPrototypeOf(obj)：返回obj的原型（内部[[Prototype]]属性的值）
 // （2）Object.create(protoObj)：以 protoObj 为原型创建一个对象
-// （3）Object.assign(target, ...sources)：把 sources 上的对象混入到 target 上
+// （3）Object.assign(obj1, obj2)：把 obj2 混入到 obj1 上,返回 obj1；如果 obj2 和 obj1 属性一样（浅比较），则 obj2 覆盖 obj1
 // （4）Object.freeze(obj)：冻结 obj：冻结后（1）不能修改、添加、删除属性；（2）不能修改属性特性；（3）不能修改原型
 // （5）Object.is(val1, val2)：判断两个值是否为同一个值
 
